@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Hum? $errorMessage');
+    return Text(errorMessage == '' ? '' : 'HUH? $errorMessage');
   }
 
   Widget _submitButton() {
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       fontSize: 42,
                       fontWeight: FontWeight.bold)),
-              SizedBox(height: 15),
+              SizedBox(height: 5),
               Text(isLogin ? "Login" : "Register",
                   style: TextStyle(color: Colors.white, fontSize: 32)),
               TextField(

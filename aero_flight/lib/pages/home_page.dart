@@ -1,43 +1,61 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:aero_flight/auth.dart';
+import 'package:aero_flight/pages/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-  final User? user = Auth().currentUser;
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   Future<void> signOut() async {
     await Auth().signOut();
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
-  }
-
-  Widget _signOutButton() {
-    return ElevatedButton(
-        onPressed: signOut,
-        child: const Text('Sign Out'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            _userUid(),
-            _signOutButton()
-          ],
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7),
+          child: GNav(
+            backgroundColor: Colors.black,
+            color: Colors.white,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.blueGrey,
+            gap: 8,
+            padding: EdgeInsets.all(16),
+            tabs: [
+              GButton(icon: Icons.home, text: 'home'),
+              GButton(icon: Icons.favorite, text: 'Favorites'),
+              GButton(
+                icon: Icons.search,
+                text: 'Search',
+              ),
+              GButton(
+                icon: Icons.person,
+                text: 'Profile',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                },
+              ),
+              GButton(icon: Icons.logout, onPressed: signOut)
+            ],
+          ),
         ),
+      ),
+      body: Center(
+        child: Text('Welcome to the home page'),
       ),
     );
   }
 }
+
+
