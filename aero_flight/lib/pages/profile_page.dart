@@ -31,41 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.blueGrey,
-            gap: 8,
-            padding: const EdgeInsets.all(16),
-            tabs: [
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                        (route) => false,
-                  );
-                },
-              ),
-              GButton(icon: Icons.favorite, text: 'Favorites'),
-              GButton(
-                icon: Icons.search,
-                text: 'Search',
-                onPressed: () {},
-              ),
-              GButton(icon: Icons.person, text: 'Profile'),
-              GButton(icon: Icons.logout, onPressed: signOut),
-            ],
-          ),
-        ),
-      ),
       body: Center(
         child: Text('This will be the profile page'),
       ),
