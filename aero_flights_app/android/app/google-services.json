@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "315434302931",
+    "project_id": "aeroflights-8540f",
+    "storage_bucket": "aeroflights-8540f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315434302931:android:0210b56b12358661fc4326",
+        "android_client_info": {
+          "package_name": "com.example.aero_flights"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315434302931-lil5n3udbv7eeqk61me859msj8jj2egi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6BbJV8iSdIf3V0HjWvFf5gl2m-qwMpDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315434302931-lil5n3udbv7eeqk61me859msj8jj2egi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
