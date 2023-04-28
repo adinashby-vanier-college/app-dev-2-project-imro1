@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:aero_flights/pages/register_page.dart';
 import 'package:aero_flights/pages/flights_page.dart';
 import 'package:aero_flights/pages/map_page.dart';
+import 'package:aero_flights/pages/favorites_page.dart';
+import 'package:aero_flights/pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,6 +43,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void favorites_page() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FavoritesPage()),
+    );
+  }
+
+  void search_page() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SearchPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,40 +71,72 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: docIDs.isEmpty
-            ? CircularProgressIndicator()
-            : ListView.builder(
-          itemCount: docIDs.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ListTile(
-                title: GetUserName(documentId: docIDs[index]),
-                tileColor: Colors.lightBlueAccent,
-              ),
-            );
-          },
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage('https://wallpaperaccess.com/full/6800802.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: docIDs.isEmpty
+              ? CircularProgressIndicator()
+              : ListView.builder(
+                  itemCount: docIDs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ListTile(
+                        title: GetUserName(documentId: docIDs[index]),
+                        tileColor: Colors.lightBlueAccent,
+                        minLeadingWidth: 10
+                      ),
+                    );
+                  },
+                ),
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: flights_page,
-            child: Icon(Icons.flight),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MapPage()),
-              );
-            },
-            child: Icon(Icons.map),
-          ),
-        ],
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              onPressed: flights_page,
+              child: Icon(Icons.flight),
+              backgroundColor: Colors.blue,
+              mini: false,
+              heroTag: null,
+            ),
+            FloatingActionButton(
+              onPressed: favorites_page,
+              child: Icon(Icons.favorite),
+              backgroundColor: Colors.blue,
+              mini: false,
+              heroTag: null,
+            ),
+            FloatingActionButton(
+              onPressed: search_page,
+              child: Icon(Icons.search),
+              backgroundColor: Colors.blue,
+              mini: false,
+              heroTag: null,
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapPage()),
+                );
+              },
+              child: Icon(Icons.map),
+              backgroundColor: Colors.blue,
+              mini: false,
+              heroTag: null,
+            ),
+          ],
+        ),
       ),
     );
   }
