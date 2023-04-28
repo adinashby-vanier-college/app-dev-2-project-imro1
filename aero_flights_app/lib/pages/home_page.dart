@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:aero_flights/read%20data/get_user_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,6 +68,48 @@ class _HomePageState extends State<HomePage> {
             },
             child: Icon(Icons.logout),
           ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () async {
+              // show a confirmation dialog
+              bool confirmDelete = await showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text("Delete Account?"),
+                  content: Text("Are you sure you want to delete your account? This action cannot be undone."),
+                  actions: [
+                    TextButton(
+                      child: Text("CANCEL"),
+                      onPressed: () => Navigator.pop(context, false),
+                    ),
+                    TextButton(
+                      child: Text("DELETE"),
+                      onPressed: () => Navigator.pop(context, true),
+                    ),
+                  ],
+                ),
+              );
+
+              // if user confirms deletion, delete account from database and sign out
+              if (confirmDelete == true) {
+                try {
+                  // delete user document from Firestore
+                  await FirebaseFirestore.instance.collection('users').doc(user.uid).delete();
+                  // delete user account from Firebase Auth
+                  await FirebaseAuth.instance.currentUser!.delete();
+                  // sign out user
+                  await FirebaseAuth.instance.signOut();
+                } catch (e) {
+                  print("Error deleting user account: $e");
+                  // show an error message
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Error deleting user account. Please try again."),
+                  ));
+                }
+              }
+            },
+          )
+
         ],
       ),
       body: Container(
