@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:aero_flights/pages/register_page.dart';
+import 'package:aero_flights/pages/flights_page.dart';
+import 'package:aero_flights/pages/map_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,6 +32,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getDocId();
+  }
+
+  void flights_page() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FlightsPage()),
+    );
   }
 
   @override
@@ -61,6 +70,25 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: flights_page,
+            child: Icon(Icons.flight),
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapPage()),
+              );
+            },
+            child: Icon(Icons.map),
+          ),
+        ],
       ),
     );
   }

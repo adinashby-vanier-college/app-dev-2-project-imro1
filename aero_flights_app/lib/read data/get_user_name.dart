@@ -17,7 +17,7 @@ GetUserName({required this.documentId});
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return Text('yo' + ' ${data['username']}');
+          return Text('username: ' + ' ${data['username']}');
         }
         return Text('loading..');
       }),
