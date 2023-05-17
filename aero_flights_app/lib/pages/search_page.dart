@@ -61,9 +61,18 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       _searchResults = _flights
           .where((flight) =>
-      flight['airline'].toString().toLowerCase().contains(query.toLowerCase()) ||
-          flight['departure'].toString().toLowerCase().contains(query.toLowerCase()) ||
-          flight['destination'].toString().toLowerCase().contains(query.toLowerCase()))
+      flight['airline']
+          .toString()
+          .toLowerCase()
+          .contains(query.toLowerCase()) ||
+          flight['departure']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()) ||
+          flight['destination']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()))
           .toList();
     });
   }
@@ -111,86 +120,87 @@ class _SearchPageState extends State<SearchPage> {
             ),
             SizedBox(height: 16),
             Expanded(
-              child: _searchResults.isEmpty
-                  ? Center(
-                child: Text(
-                  'No flights available',
-                  style: TextStyle(fontSize: 16),
-                ),
-              )
-                  : ListView.builder(
-                itemCount: _searchResults.length,
-                itemBuilder: (context, index) {
-                  final flight = _searchResults[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FlightDetailsPage(
-                              flight: flight,
+              child: SingleChildScrollView(
+                child: _searchResults.isEmpty
+                    ? Center(
+                  child: Text(
+                    'No flights available',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                )
+                    : Column(
+                  children: _searchResults.map((flight) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FlightDetailsPage(
+                                flight: flight,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${flight['airline']} - ${flight['id']}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                          );
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${flight['airline']} - ${flight['id']}',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                '${flight['departure']} to ${flight['destination']}',
-                                style: TextStyle(fontSize: 16),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Price: \$${flight['price']}',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                SizedBox(height: 8),
+                                Text(
+                                  '${flight['departure']} to ${flight['destination']}',
+                                  style: TextStyle(fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Price: \$${flight['price']}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              FlightDetailsPage(
-                                                flight: flight,
-                                              ),
-                                        ),
-                                      );
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.teal),
-                                    child: Text('Save'),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FlightDetailsPage(
+                                                  flight: flight,
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.teal),
+                                      child: Text('Save'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ],
@@ -199,4 +209,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-
