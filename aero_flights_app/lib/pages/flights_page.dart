@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:aero_flights/pages/favorites_page.dart';
 
 class FlightsPage extends StatefulWidget {
   FlightsPage({Key? key}) : super(key: key);
@@ -10,8 +11,10 @@ class FlightsPage extends StatefulWidget {
 }
 
 class _FlightsPageState extends State<FlightsPage> {
+  List<Map<String, dynamic>> _favoriteFlights = [];
   List<Map<String, dynamic>> _flights = [];
   Map<String, dynamic>? _selectedFlight;
+
 
   @override
   void initState() {
@@ -137,7 +140,27 @@ class _FlightsPageState extends State<FlightsPage> {
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.teal),
-                            child: Text('Save'),
+                            child: Text('Details'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FavoritesPage(
+                                    favoriteFlights: _favoriteFlights,
+                                  ),
+                                ),
+                              );
+
+                              setState(() {
+                                _favoriteFlights.add(flight);
+                              });
+                            },
+
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.teal),
+                            child: Text('save'),
                           ),
                         ],
                       ),
@@ -176,47 +199,49 @@ class FlightDetailsPage extends StatelessWidget {
   }
 
   Widget _buildFlightDetails(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center, // Center the content vertically
-      children: [
-        Image.asset(
-          'images/flight.png', // Provide the path to your flight image
-          width: MediaQuery.of(context).size.width * 0.6, // Take 80% of the screen width
-        ),
-        SizedBox(height: 16),
-        Text(
-          '${flight['airline']} - ${flight['id']}',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Departure: ${flight['departure'] ?? 'Unknown'}',
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Destination: ${flight['destination'] ?? 'Unknown'}',
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Time: ${flight['time'] ?? 'Unknown'}',
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Price: \$${flight['price'] ?? 'Unknown'}',
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context); // Go back to the previous route
-          },
-          style: ElevatedButton.styleFrom(primary: Colors.teal), // Set button color
-          child: Text('Back to Flights'),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Center the content vertically
+        children: [
+          Image.asset(
+            'images/flight.png', // Provide the path to your flight image
+            width: MediaQuery.of(context).size.width * 0.6, // Take 80% of the screen width
+          ),
+          SizedBox(height: 16),
+          Text(
+            '${flight['airline']} - ${flight['id']}',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Departure: ${flight['departure'] ?? 'Unknown'}',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Destination: ${flight['destination'] ?? 'Unknown'}',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Time: ${flight['time'] ?? 'Unknown'}',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Price: \$${flight['price'] ?? 'Unknown'}',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context); // Go back to the previous route
+            },
+            style: ElevatedButton.styleFrom(primary: Colors.teal), // Set button color
+            child: Text('Back to Flights'),
+          ),
+        ],
+      ),
     );
   }
 }

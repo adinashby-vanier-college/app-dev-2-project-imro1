@@ -17,13 +17,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+  List<Map<String, dynamic>> _favoriteFlights = [];
 
   // document IDs
   List<String> docIDs = [];
 
   // get docIDS
   Future<void> getDocId() async {
-    final snapshot = await FirebaseFirestore.instance.collection('users').get();
+    final snapshot = await FirebaseFirestore.instance.collection('user').get();
     setState(() {
       docIDs = snapshot.docs.map((document) => document.reference.id).toList();
     });
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   void favorites_page() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => FavoritesPage()),
+      MaterialPageRoute(builder: (context) => FavoritesPage(favoriteFlights: _favoriteFlights)),
     );
   }
 
@@ -60,7 +61,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${user.email!}'s profile"),
+        backgroundColor: Colors.teal,
+        title: Text("${user.email!}"),
         actions: [
           GestureDetector(
             onTap: () {
@@ -94,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               if (confirmDelete == true) {
                 try {
                   // delete user document from Firestore
-                  await FirebaseFirestore.instance.collection('users').doc(user.uid).delete();
+                  await FirebaseFirestore.instance.collection('user').doc(user.uid).delete();
                   // delete user account from Firebase Auth
                   await FirebaseAuth.instance.currentUser!.delete();
                   // sign out user
@@ -146,24 +148,27 @@ class _HomePageState extends State<HomePage> {
             FloatingActionButton(
               onPressed: flights_page,
               child: Icon(Icons.flight),
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.teal,
               mini: false,
               heroTag: null,
             ),
+            Spacer(),
             FloatingActionButton(
               onPressed: favorites_page,
               child: Icon(Icons.favorite),
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.teal,
               mini: false,
               heroTag: null,
             ),
+            Spacer(),
             FloatingActionButton(
               onPressed: search_page,
               child: Icon(Icons.search),
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.teal,
               mini: false,
               heroTag: null,
             ),
+            Spacer(),
             FloatingActionButton(
               onPressed: () {
                 Navigator.push(
@@ -172,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Icon(Icons.map),
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.teal,
               mini: false,
               heroTag: null,
             ),
